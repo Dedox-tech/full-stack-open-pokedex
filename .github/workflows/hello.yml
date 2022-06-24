@@ -3,13 +3,13 @@ name: "Hello World!"
 on:
   push:
     branches:
-      -master
+      - master
 
 jobs:
   hello-world-job:
     runs-on: ubuntu-20.04
     steps:
       - name: Say hello
-      run: | echo "Hello World!"
+      run: | 
+        echo "Hello World!"
 
-      
