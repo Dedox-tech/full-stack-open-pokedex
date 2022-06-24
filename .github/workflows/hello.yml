@@ -1,4 +1,4 @@
-name: "Hello World!"
+name: Hello World!
 
 on:
   push:
@@ -6,9 +6,11 @@ on:
       - master
 
 jobs:
-  hello-world-job:
+  hello_world_job:
     runs-on: ubuntu-20.04
     steps:
       - name: Say hello
         run: |
           echo "Hello World!"
+      - name: Show the date
+        run: date
