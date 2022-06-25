@@ -1,4 +1,4 @@
-#Considerations about CI/CD process in GO
+# Considerations about CI/CD process in GO
 
 Setting a CI/CD pipeline for a web application written in GO might include the following steps: First, we need to use a linter, which is usually Golangci-Linter. For testing, the standard library could work, but a specific framework like Testify will be better.  Finally, the build can be achived with a separate solution as Go-Task or GNU-Make.
 
