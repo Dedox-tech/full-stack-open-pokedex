@@ -22,7 +22,7 @@ jobs:
       - name: test 
         run: npm test
       - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.7.8
+        uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "react-node-js-app-demo"
