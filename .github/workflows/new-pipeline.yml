@@ -33,5 +33,7 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "react-node-js-app-demo"
           heroku_email: "dmurilloferrer@gmail.com"
+          healthcheck: "https://react-node-js-app-demo.herokuapp.com/health"
+          checkstring: "ok"
 
 
