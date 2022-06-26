@@ -40,7 +40,7 @@ jobs:
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
   tag_release:
-    if: ${{github.event_name == 'push'}}
+    if: ${{github.event_name == 'push' &&	contains(join(github.event.commits.*.message), '#skip')}}
     runs-on: ubuntu-latest
     needs: [build_pipeline, deployment_pipeline]
     steps:
