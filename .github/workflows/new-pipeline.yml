@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
+
   
 jobs:
 
@@ -22,8 +26,8 @@ jobs:
         run: npm run test
       - name: build
         run: npm run build
-  
   deployment_pipeline:
+    if: ${{github.event_name == 'push'}}
     runs-on: ubuntu-latest
     needs: [build_pipeline]
     steps:
