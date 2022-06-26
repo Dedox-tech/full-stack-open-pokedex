@@ -4,25 +4,31 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
 
 jobs:
-  simple_deployment_pipeline:
-    runs-on: ubuntu-latest
+  deployment_pipeline:
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
-          node-version: "16"
+          node-version: '16'
       - name: npm install
         run: npm install
       - name: lint
         run: npm run eslint
+      - name: test
+        run: npm run test
       - name: build
         run: npm run build
-      - name: test 
-        run: npm test
-      - uses: akhileshns/heroku-deploy@v3.12.12 
+      - name: deloy to heroku
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ''), '#skip') }}
+        uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "react-node-js-app-demo"
-          heroku_email: "dmurilloferrer@gmail.com"
+          heroku_app_name: 'react-node-js-app-demo'
+          heroku_email: 'dmurilloferrer@gmail.com'
+    
