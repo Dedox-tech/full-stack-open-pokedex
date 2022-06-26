@@ -35,5 +35,6 @@ jobs:
           heroku_email: "dmurilloferrer@gmail.com"
           healthcheck: "https://react-node-js-app-demo.herokuapp.com/health"
           checkstring: "ok"
+          rollbackonhealthcheckfailed: true
 
 
