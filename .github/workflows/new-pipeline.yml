@@ -46,6 +46,13 @@ jobs:
           severity: error
           details: WARNING! The build has failed
           webhookUrl: ${{secrets.DISCORD_WEBHOOK}}
+      - name: Build Success
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+          severity: info
+          details: The build successed
+          webhookUrl: ${{secrets.DISCORD_WEBHOOK}}
   tag_release:
     if: ${{github.event_name == 'push' &&	!contains(join(github.event.commits.*.message), '#skip')}}
     runs-on: ubuntu-latest
