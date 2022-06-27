@@ -54,7 +54,7 @@ jobs:
           details: The build successed
           webhookUrl: ${{secrets.DISCORD_WEBHOOK}}
   tag_release:
-    if: ${{github.event_name == 'push' &&	!contains(join(github.event.commits.*.message), '#skip')}}
+    if: ${{github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip')}}
     runs-on: ubuntu-latest
     needs: [build_pipeline, deployment_pipeline]
     steps:
