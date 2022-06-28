@@ -34,6 +34,11 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           start: npm run start-prod
+      - name: Upload videos to Slack
+        uses: trymbill/cypress-slack-video-upload-action@v1.3.0
+        with:
+          token: ${{ secrets.SLACK_TOKEN }}
+          channels: 'github-actions'
   deployment_pipeline:
     if: ${{github.event_name == 'push'}}
     runs-on: ubuntu-latest
