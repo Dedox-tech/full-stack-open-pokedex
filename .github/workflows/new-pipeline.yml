@@ -13,7 +13,7 @@ jobs:
   build_pipeline:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
@@ -25,12 +25,12 @@ jobs:
         run: npm run test
       - name: Build
         run: npm run build
+  test_e2e_pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
       - name: E2E Test
         uses: cypress-io/github-action@v4
-        with:
-          start: npm run start-prod
-          wait-on: 'http://localhost:5000'
-          wait-on-timeout: 120
   deployment_pipeline:
     if: ${{github.event_name == 'push'}}
     runs-on: ubuntu-latest
