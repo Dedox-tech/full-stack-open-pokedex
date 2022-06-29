@@ -14,21 +14,38 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: '16'
       - name: Npm install
         run: npm install
       - name: Lint
         run: npm run eslint
-      - name: Test
+      - name: Unit Test
         run: npm run test
       - name: Build
         run: npm run build
+  test_e2e_pipeline:
+    runs-on: ubuntu-latest
+    needs: [build_pipeline]
+    steps:
+      - uses: actions/checkout@v3
+      - name: E2E Test
+        uses: cypress-io/github-action@v4
+        with:
+          start: npm run start-prod
+          wait-on: 'http://localhost:5000'
+          wait-on-timeout: 120
+      - name: Upload videos to Slack
+        uses: trymbill/cypress-slack-video-upload-action@v1.3.0
+        if: failure()
+        with:
+          token: ${{ secrets.SLACK_TOKEN }}
+          channels: 'github-actions'
   deployment_pipeline:
     if: ${{github.event_name == 'push'}}
     runs-on: ubuntu-latest
-    needs: [build_pipeline]
+    needs: [build_pipeline, test_e2e_pipeline]
     steps:
       - uses: actions/checkout@v3
       - uses: akhileshns/heroku-deploy@v3.12.12 
@@ -56,12 +73,13 @@ jobs:
   tag_release:
     if: ${{github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip')}}
     runs-on: ubuntu-latest
-    needs: [build_pipeline, deployment_pipeline]
+    needs: [build_pipeline, test_e2e_pipeline, deployment_pipeline]
     steps:
       - uses: actions/checkout@v3
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@1.36.0
         env: 
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          DEFAULT_BUMP: 'patch'
   
   
