@@ -35,7 +35,7 @@ jobs:
         with:
           start: npm run start-prod
           wait-on: 'http://localhost:5000'
-          wait-on-timeout: 240
+          wait-on-timeout: 120
       - name: Upload videos to Slack
         uses: trymbill/cypress-slack-video-upload-action@v1.3.0
         if: failure()
